@@ -235,7 +235,7 @@ class Crypt {
 		if (!empty($header)) {
 			$privateKey = substr($privateKey,
 				strpos($privateKey,
-					self::HEADER_END) + strlen(self::HEADER_START));
+					self::HEADER_END) + strlen(self::HEADER_END));
 		}
 
 		$plainKey = $this->symmetricDecryptFileContent($privateKey,
