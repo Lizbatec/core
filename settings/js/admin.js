@@ -55,7 +55,7 @@ $(document).ready(function(){
 	});
 
 	$('#encryptionEnabled').change(function() {
-		$('#encryptionAPI div#selectEncryptionModules').toggleClass('hidden');
+		$('#encryptionAPI div#EncryptionSettingsArea').toggleClass('hidden');
 	});
 
 	$('#encryptionAPI input').change(function() {
@@ -68,6 +68,23 @@ $(document).ready(function(){
 			}
 		}
 		OC.AppConfig.setValue('core', $(this).attr('name'), value);
+	});
+
+	$('#startmigration').click(function(event){
+		event.preventDefault();
+		OC.msg.startAction('#startmigration_msg', t('settings', 'Migration started …'));
+		$.post(OC.generateUrl('/settings/admin/startmigration'), '', function(data){
+			OC.msg.finishedAction('#startmigration_msg', data);
+
+			setTimeout(function() {
+				if (data['status'] === 'success') {
+
+					$('#encryptionAPI div#selectEncryptionModules').toggleClass('hidden');
+					$('#encryptionAPI div#migrationWarning').toggleClass('hidden');
+				}
+			}, 3000);
+
+		});
 	});
 
 	$('#shareAPI input:not(#excludedGroups)').change(function() {
